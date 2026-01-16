@@ -46,7 +46,11 @@
   "license": "MIT",
   "repository": {
     "type": "git",
-    "url": ""
+    "url": "https://github.com/exposir/blitz-sort.git"
+  },
+  "homepage": "https://github.com/exposir/blitz-sort#readme",
+  "bugs": {
+    "url": "https://github.com/exposir/blitz-sort/issues"
   },
   "devDependencies": {
     "tsup": "^8.0.0",
