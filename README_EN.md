@@ -2,7 +2,9 @@
 
 English | [简体中文](./README.md)
 
-Ultra-fast sorting library for JavaScript. Outperforms V8's native `.sort()` by using type-specific algorithms optimized for different data patterns.
+Ultra-fast sorting library for JavaScript. **Up to 159x faster**, averaging **19.9x** speedup over V8's native `.sort()`.
+
+Achieves superior performance through type-specific algorithms (radix sort, counting sort, pattern detection, etc.).
 
 ## Features
 

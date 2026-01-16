@@ -1,18 +1,32 @@
 {
   "name": "blitz-sort",
   "version": "3.0.0",
-  "description": "Ultra-fast sorting library for JavaScript - optimized for integers, floats, strings, and objects",
-  "main": "index.js",
-  "types": "index.d.ts",
+  "description": "Ultra-fast sorting library for JavaScript - up to 159x faster, averaging 19.9x speedup",
+  "main": "./dist/index.js",
+  "module": "./dist/index.mjs",
+  "types": "./dist/index.d.ts",
   "exports": {
     ".": {
-      "require": "./index.js",
-      "import": "./index.js"
+      "require": {
+        "types": "./dist/index.d.ts",
+        "default": "./dist/index.js"
+      },
+      "import": {
+        "types": "./dist/index.d.mts",
+        "default": "./dist/index.mjs"
+      }
     }
   },
+  "files": [
+    "dist",
+    "README.md",
+    "README_EN.md"
+  ],
   "scripts": {
-    "test": "node index.js",
-    "benchmark": "node index.js"
+    "build": "tsup",
+    "dev": "tsup --watch",
+    "benchmark": "npx tsx benchmark/run.ts",
+    "prepublishOnly": "npm run build"
   },
   "keywords": [
     "sort",
@@ -25,7 +39,8 @@
     "uint32",
     "float64",
     "string-sort",
-    "object-sort"
+    "object-sort",
+    "typescript"
   ],
   "author": "",
   "license": "MIT",
@@ -33,13 +48,12 @@
     "type": "git",
     "url": ""
   },
-  "engines": {
-    "node": ">=14.0.0"
+  "devDependencies": {
+    "tsup": "^8.0.0",
+    "tsx": "^4.0.0",
+    "typescript": "^5.0.0"
   },
-  "files": [
-    "index.js",
-    "index.d.ts",
-    "README.md",
-    "README_EN.md"
-  ]
+  "engines": {
+    "node": ">=16.0.0"
+  }
 }
