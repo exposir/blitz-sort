@@ -1,6 +1,6 @@
 # blitz-sort
 
-[English](./README.md) | 简体中文
+[English](https://github.com/exposir/blitz-sort/blob/main/README.md) | 简体中文
 
 超快速 JavaScript 排序库，**最高提升 159x**，平均提升 **19.9x**。
 

@@ -1,6 +1,6 @@
 # blitz-sort
 
-English | [简体中文](./README_ZH.md)
+English | [简体中文](https://github.com/exposir/blitz-sort/blob/main/README_ZH.md)
 
 Ultra-fast sorting library for JavaScript. **Up to 159x faster**, averaging **19.9x** speedup over V8's native `.sort()`.
 
