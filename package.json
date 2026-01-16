@@ -1,6 +1,6 @@
 {
   "name": "blitz-sort",
-  "version": "3.0.0",
+  "version": "3.0.1",
   "description": "Ultra-fast sorting library for JavaScript - up to 159x faster, averaging 19.9x speedup",
   "main": "./dist/index.js",
   "module": "./dist/index.mjs",
