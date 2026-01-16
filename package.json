@@ -20,7 +20,7 @@
   "files": [
     "dist",
     "README.md",
-    "README_EN.md"
+    "README_ZH.md"
   ],
   "scripts": {
     "build": "tsup",
@@ -42,7 +42,7 @@
     "object-sort",
     "typescript"
   ],
-  "author": "",
+  "author": "exposir",
   "license": "MIT",
   "repository": {
     "type": "git",

@@ -1,46 +1,46 @@
 # blitz-sort
 
-[English](./README_EN.md) | 简体中文
+English | [简体中文](./README_ZH.md)
 
-超快速 JavaScript 排序库，**最高提升 159x**，平均提升 **19.9x**。
+Ultra-fast sorting library for JavaScript. **Up to 159x faster**, averaging **19.9x** speedup over V8's native `.sort()`.
 
-通过针对不同数据类型使用最优算法 (基数排序、计数排序、模式检测等)，全面超越 V8 原生 `.sort()`。
+Achieves superior performance through type-specific algorithms (radix sort, counting sort, pattern detection, etc.).
 
-## 特性
+## Features
 
-- **多类型支持**: Uint32、Float64、字符串、对象
-- **自适应算法**: 根据数据规模和分布自动选择最佳算法
-- **模式检测**: 已排序/逆序数组瞬间处理
-- **零依赖**: 纯 JavaScript 实现
-- **原地排序**: 最小内存开销
+- **Multi-type support**: Uint32, Float64, strings, and objects
+- **Adaptive algorithms**: Automatically selects the best algorithm based on data size and distribution
+- **Pattern detection**: Instant handling of sorted/reversed arrays
+- **Zero dependencies**: Pure JavaScript, no external dependencies
+- **In-place sorting**: Minimal memory overhead
 
-## 安装
+## Installation
 
 ```bash
 npm install blitz-sort
 ```
 
-## 使用
+## Usage
 
 ```javascript
 const { ultraSort, sortUint32, sortFloat64, sortStrings, sortObjects } = require('blitz-sort');
 
-// 整数数组
+// Integer arrays
 const integers = new Uint32Array([3, 1, 4, 1, 5, 9, 2, 6]);
 ultraSort(integers);
 // => Uint32Array [1, 1, 2, 3, 4, 5, 6, 9]
 
-// 浮点数组
+// Float arrays
 const floats = new Float64Array([3.14, -2.71, 1.41, -0.5]);
 ultraSort(floats);
 // => Float64Array [-2.71, -0.5, 1.41, 3.14]
 
-// 字符串数组
+// String arrays
 const strings = ['banana', 'apple', 'cherry', 'date'];
 ultraSort(strings);
 // => ['apple', 'banana', 'cherry', 'date']
 
-// 对象数组 (按字段排序)
+// Object arrays with key function
 const users = [
   { name: 'Alice', age: 30 },
   { name: 'Bob', age: 25 },
@@ -49,7 +49,7 @@ const users = [
 ultraSort(users, { by: u => u.age });
 // => [{ name: 'Bob', age: 25 }, { name: 'Alice', age: 30 }, { name: 'Charlie', age: 35 }]
 
-// 降序排列
+// Descending order
 ultraSort(integers, { descending: true });
 // => Uint32Array [9, 6, 5, 4, 3, 2, 1, 1]
 ```
@@ -58,117 +58,117 @@ ultraSort(integers, { descending: true });
 
 ### `ultraSort(arr, options?)`
 
-主排序函数，自动检测数组类型并应用最优算法。
+Main sorting function that auto-detects array type and applies the optimal algorithm.
 
-**参数:**
-- `arr` - 待排序数组 (原地修改)
-- `options.by` - 对象排序时的键提取函数
-- `options.descending` - 是否降序排列 (默认: `false`)
+**Parameters:**
+- `arr` - Array to sort (mutates in place)
+- `options.by` - Key extraction function for object sorting
+- `options.descending` - Sort in descending order (default: `false`)
 
-**返回:** 排序后的数组
+**Returns:** The sorted array
 
 ### `sortUint32(arr)`
 
-Uint32Array 专用优化排序。根据数据特征使用:
-- 插入排序 (n ≤ 32)
-- 计数排序 (密集整数范围)
-- 基数排序 (n ≥ 5000)
+Optimized sorting for `Uint32Array`. Uses:
+- Insertion sort for n ≤ 32
+- Counting sort for dense integer ranges
+- Radix sort for large arrays (n ≥ 5000)
 
 ### `sortFloat64(arr)`
 
-Float64Array 专用优化排序。包含已排序/逆序数组的模式检测。
+Optimized sorting for `Float64Array`. Includes pattern detection for sorted/reversed arrays.
 
 ### `sortStrings(arr)`
 
-字符串数组优化排序。使用:
-- 插入排序 (n ≤ 32)
-- MSD 基数排序 (n ≥ 1000)
+Optimized string sorting. Uses:
+- Insertion sort for n ≤ 32
+- MSD Radix sort for large arrays (n ≥ 1000)
 
 ### `sortObjects(arr, keyFn)`
 
-对象排序，对字符串键使用 Schwartzian 变换避免重复计算。
+Object sorting using Schwartzian transform for string keys to avoid redundant key computation.
 
-## 算法选择策略
+## Algorithm Selection
 
-| 数据类型 | 数据规模 | 算法 |
-|---------|---------|------|
-| Uint32 | n ≤ 32 | 插入排序 |
-| Uint32 | 33-256 | V8 原生 |
-| Uint32 | 密集范围 | 计数排序 |
-| Uint32 | n ≥ 5000 | LSD 基数排序 |
-| Float64 | 所有 | 模式检测 + V8 原生 |
-| String | n ≤ 32 | 插入排序 |
-| String | n ≥ 1000 | MSD 基数排序 |
-| Object | 数字键 | V8 原生 |
-| Object | 字符串键 | Schwartzian 变换 |
+| Data Type | Size | Algorithm |
+|-----------|------|-----------|
+| Uint32 | n ≤ 32 | Insertion Sort |
+| Uint32 | 33-256 | V8 Native |
+| Uint32 | Dense range | Counting Sort |
+| Uint32 | n ≥ 5000 | LSD Radix Sort |
+| Float64 | All | Pattern Detection + V8 Native |
+| String | n ≤ 32 | Insertion Sort |
+| String | n ≥ 1000 | MSD Radix Sort |
+| Object | Numeric key | V8 Native |
+| Object | String key | Schwartzian Transform |
 
-## 性能对比
+## Performance
 
-blitz-sort vs V8 原生 `.sort()` 基准测试:
+Benchmarks comparing blitz-sort vs V8 native `.sort()`:
 
-### 整数 (Uint32Array)
+### Integer (Uint32Array)
 
-| 测试场景 | 10K | 100K | 1M |
-|---------|-----|------|-----|
-| 密集整数 | 4.9x | 14.2x | 17.0x |
-| 稀疏整数 | 1.8x | 14.7x | 15.7x |
-| 已排序 | 4.0x | 63.7x | 73.2x |
-| 逆序 | 2.2x | 40.1x | 50.4x |
-| 大量重复 | 32.3x | 39.8x | 52.3x |
+| Test Case | 10K | 100K | 1M |
+|-----------|-----|------|-----|
+| Dense integers | 4.9x | 14.2x | 17.0x |
+| Sparse integers | 1.8x | 14.7x | 15.7x |
+| Already sorted | 4.0x | 63.7x | 73.2x |
+| Reversed | 2.2x | 40.1x | 50.4x |
+| Many duplicates | 32.3x | 39.8x | 52.3x |
 
-### 浮点数 (Float64Array)
+### Float (Float64Array)
 
-| 测试场景 | 10K | 100K | 1M |
-|---------|-----|------|-----|
-| 随机浮点 | 1.0x | 1.0x | 1.0x |
-| 已排序 | 6.0x | 149.6x | 159.4x |
-| 正负混合 | 1.0x | 1.0x | 1.0x |
+| Test Case | 10K | 100K | 1M |
+|-----------|-----|------|-----|
+| Random floats | 1.0x | 1.0x | 1.0x |
+| Already sorted | 6.0x | 149.6x | 159.4x |
+| Mixed pos/neg | 1.0x | 1.0x | 1.0x |
 
-### 字符串
+### String
 
-| 测试场景 | 10K | 50K | 100K |
-|---------|-----|-----|------|
-| 随机字符串 | 2.4x | 3.0x | 3.6x |
-| 已排序 | 0.8x | 2.6x | 2.7x |
-| 公共前缀 | 1.1x | 1.2x | 1.4x |
+| Test Case | 10K | 50K | 100K |
+|-----------|-----|-----|------|
+| Random strings | 2.4x | 3.0x | 3.6x |
+| Already sorted | 0.8x | 2.6x | 2.7x |
+| Common prefix | 1.1x | 1.2x | 1.4x |
 
-### 对象
+### Object
 
-| 测试场景 | 10K | 50K | 100K |
-|---------|-----|-----|------|
-| 按数字字段 | 1.1x | 1.1x | 1.2x |
-| 按字符串字段 | 1.4x | 1.4x | 2.1x |
+| Test Case | 10K | 50K | 100K |
+|-----------|-----|-----|------|
+| By numeric field | 1.1x | 1.1x | 1.2x |
+| By string field | 1.4x | 1.4x | 2.1x |
 
-**平均性能提升: 19.9x**
+**Average speedup: 19.9x**
 
-*运行 `npm run benchmark` 查看你机器上的实际结果。*
+*Run `npm run benchmark` to see results on your machine.*
 
-## 实现原理
+## How It Works
 
-### 模式检测
+### Pattern Detection
 
-排序前，采样前 32 个元素检测数据模式:
-- **已排序**: 直接返回
-- **逆序**: O(n) 反转操作
-- **随机**: 执行完整排序算法
+Before sorting, the library samples the first 32 elements to detect:
+- **Sorted arrays**: Return immediately
+- **Reversed arrays**: Simple O(n) reverse operation
+- **Random arrays**: Apply full sorting algorithm
 
-### 整数基数排序
+### Radix Sort for Integers
 
-对于大型整数数组，LSD (最低有效位) 基数排序按字节处理数字，对有界整数达到 O(n) 时间复杂度。
+For large integer arrays, LSD (Least Significant Digit) radix sort processes numbers byte-by-byte, achieving O(n) time complexity for bounded integers.
 
-### 字符串 MSD 基数排序
+### MSD Radix Sort for Strings
 
-对于大型字符串数组，MSD (最高有效位) 基数排序按字符位置分组，递归排序每个桶。
+For large string arrays, MSD (Most Significant Digit) radix sort groups strings by character position, recursively sorting each bucket.
 
-### Schwartzian 变换
+### Schwartzian Transform for Objects
 
-按字符串键排序对象时，预先计算所有键值，避免比较过程中重复调用 `keyFn`。
+When sorting objects by a string key, pre-computes all keys once to avoid redundant `keyFn` calls during comparisons.
 
-## 环境要求
+## Requirements
 
 - Node.js >= 14.0.0
-- 使用 `BigUint64Array` 进行浮点数转整数
+- Uses `BigUint64Array` for float-to-int conversion
 
-## 许可证
+## License
 
 MIT
