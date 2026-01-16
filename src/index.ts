@@ -97,20 +97,30 @@ function radixSortUint(arr: Uint32Array, maxVal: number): Uint32Array {
 
 function detectPatternUint(arr: Uint32Array): 'sorted' | 'reversed' | 'random' {
   const n = arr.length;
-  const checkLen = Math.min(32, n);
-  let ascCount = 0,
-    descCount = 0;
+  if (n < 48) return 'random'; // 太小不值得检测
 
-  for (let i = 1; i < checkLen; i++) {
-    if (arr[i] > arr[i - 1]) ascCount++;
-    else if (arr[i] < arr[i - 1]) descCount++;
+  // 分段采样：头部、中部、尾部各 16 个元素
+  const sampleSize = 16;
+  const positions = [0, Math.floor(n / 2) - 8, n - sampleSize];
+
+  let ascCount = 0,
+    descCount = 0,
+    total = 0;
+
+  for (const start of positions) {
+    for (let i = start + 1; i < start + sampleSize; i++) {
+      if (arr[i] > arr[i - 1]) ascCount++;
+      else if (arr[i] < arr[i - 1]) descCount++;
+      total++;
+    }
   }
 
-  if (ascCount > checkLen * 0.9) {
+  // 需要 95% 一致才进行完整验证
+  if (ascCount > total * 0.95) {
     for (let i = 1; i < n; i++) if (arr[i] < arr[i - 1]) return 'random';
     return 'sorted';
   }
-  if (descCount > checkLen * 0.9) {
+  if (descCount > total * 0.95) {
     for (let i = 1; i < n; i++) if (arr[i] > arr[i - 1]) return 'random';
     return 'reversed';
   }
@@ -170,20 +180,29 @@ export function sortUint32(arr: Uint32Array): Uint32Array {
 
 function detectPatternFloat(arr: Float64Array): 'sorted' | 'reversed' | 'random' {
   const n = arr.length;
-  const checkLen = Math.min(32, n);
-  let ascCount = 0,
-    descCount = 0;
+  if (n < 48) return 'random';
 
-  for (let i = 1; i < checkLen; i++) {
-    if (arr[i] > arr[i - 1]) ascCount++;
-    else if (arr[i] < arr[i - 1]) descCount++;
+  // 分段采样：头部、中部、尾部各 16 个元素
+  const sampleSize = 16;
+  const positions = [0, Math.floor(n / 2) - 8, n - sampleSize];
+
+  let ascCount = 0,
+    descCount = 0,
+    total = 0;
+
+  for (const start of positions) {
+    for (let i = start + 1; i < start + sampleSize; i++) {
+      if (arr[i] > arr[i - 1]) ascCount++;
+      else if (arr[i] < arr[i - 1]) descCount++;
+      total++;
+    }
   }
 
-  if (ascCount > checkLen * 0.9) {
+  if (ascCount > total * 0.95) {
     for (let i = 1; i < n; i++) if (arr[i] < arr[i - 1]) return 'random';
     return 'sorted';
   }
-  if (descCount > checkLen * 0.9) {
+  if (descCount > total * 0.95) {
     for (let i = 1; i < n; i++) if (arr[i] > arr[i - 1]) return 'random';
     return 'reversed';
   }
@@ -234,20 +253,29 @@ function insertionSortStrings(arr: string[], lo: number, hi: number): void {
 
 function detectPatternStrings(arr: string[]): 'sorted' | 'reversed' | 'random' {
   const n = arr.length;
-  const checkLen = Math.min(32, n);
-  let ascCount = 0,
-    descCount = 0;
+  if (n < 48) return 'random';
 
-  for (let i = 1; i < checkLen; i++) {
-    if (arr[i] > arr[i - 1]) ascCount++;
-    else if (arr[i] < arr[i - 1]) descCount++;
+  // 分段采样：头部、中部、尾部各 16 个元素
+  const sampleSize = 16;
+  const positions = [0, Math.floor(n / 2) - 8, n - sampleSize];
+
+  let ascCount = 0,
+    descCount = 0,
+    total = 0;
+
+  for (const start of positions) {
+    for (let i = start + 1; i < start + sampleSize; i++) {
+      if (arr[i] > arr[i - 1]) ascCount++;
+      else if (arr[i] < arr[i - 1]) descCount++;
+      total++;
+    }
   }
 
-  if (ascCount > checkLen * 0.9) {
+  if (ascCount > total * 0.95) {
     for (let i = 1; i < n; i++) if (arr[i] < arr[i - 1]) return 'random';
     return 'sorted';
   }
-  if (descCount > checkLen * 0.9) {
+  if (descCount > total * 0.95) {
     for (let i = 1; i < n; i++) if (arr[i] > arr[i - 1]) return 'random';
     return 'reversed';
   }
