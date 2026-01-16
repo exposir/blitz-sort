@@ -1,0 +1,45 @@
+{
+  "name": "blitz-sort",
+  "version": "3.0.0",
+  "description": "Ultra-fast sorting library for JavaScript - optimized for integers, floats, strings, and objects",
+  "main": "index.js",
+  "types": "index.d.ts",
+  "exports": {
+    ".": {
+      "require": "./index.js",
+      "import": "./index.js"
+    }
+  },
+  "scripts": {
+    "test": "node index.js",
+    "benchmark": "node index.js"
+  },
+  "keywords": [
+    "sort",
+    "sorting",
+    "radix-sort",
+    "counting-sort",
+    "fast",
+    "performance",
+    "algorithm",
+    "uint32",
+    "float64",
+    "string-sort",
+    "object-sort"
+  ],
+  "author": "",
+  "license": "MIT",
+  "repository": {
+    "type": "git",
+    "url": ""
+  },
+  "engines": {
+    "node": ">=14.0.0"
+  },
+  "files": [
+    "index.js",
+    "index.d.ts",
+    "README.md",
+    "README_EN.md"
+  ]
+}
